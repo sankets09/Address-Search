@@ -1,0 +1,62 @@
+.search-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.topbar {
+  margin-bottom: 24px;
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.filters input,
+.filters select,
+.filters button {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #d9dfe8;
+  font-size: 1rem;
+}
+
+.filters button {
+  background: #2f6fed;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  padding: 18px;
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+.card a {
+  text-decoration: none;
+  color: #2f6fed;
+  font-weight: 700;
+}
+
+.empty {
+  text-align: center;
+  padding: 40px 0;
+  color: #666;
+}

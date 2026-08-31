@@ -1,0 +1,30 @@
+<div class="search-page">
+  <header class="topbar">
+    <h1>Property Search</h1>
+  </header>
+
+  <div class="filters">
+    <input type="text" [(ngModel)]="searchText" placeholder="Search by title or address" />
+    <input type="text" [(ngModel)]="city" placeholder="City" />
+    <select [(ngModel)]="status">
+      <option value="">All Status</option>
+      <option value="Available">Available</option>
+      <option value="Sold">Sold</option>
+    </select>
+    <button (click)="search()">Search</button>
+  </div>
+
+  <div class="results" *ngIf="results.length; else empty">
+    <div class="card" *ngFor="let property of results">
+      <h3>{{ property.title }}</h3>
+      <p>{{ property.addressLine }}</p>
+      <p><strong>City:</strong> {{ property.cityName }}</p>
+      <p><strong>Price:</strong> ₹{{ property.price | number }}</p>
+      <a [routerLink]="['/property', property.id]">View Details</a>
+    </div>
+  </div>
+
+  <ng-template #empty>
+    <p class="empty">No properties found.</p>
+  </ng-template>
+</div>

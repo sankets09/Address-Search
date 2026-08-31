@@ -1,0 +1,39 @@
+<div class="detail-page" *ngIf="property; else loading">
+  <div class="detail-card">
+    <h2>{{ property.title }}</h2>
+    <p><strong>Address:</strong> {{ property.addressLine }}</p>
+    <p><strong>City:</strong> {{ property.cityName }}</p>
+    <p><strong>Street:</strong> {{ property.streetName }}</p>
+    <p><strong>Status:</strong> {{ property.status }}</p>
+    <p><strong>Price:</strong> ₹{{ property.price | number }}</p>
+    <p><strong>Bedrooms:</strong> {{ property.bedroomCount }}</p>
+    <p><strong>Bathrooms:</strong> {{ property.bathroomCount }}</p>
+    <p><strong>Area:</strong> {{ property.areaSqft }} sqft</p>
+    <p><strong>Description:</strong> {{ property.description }}</p>
+  </div>
+
+  <div class="map-section" *ngIf="mapUrl; else noMap">
+    <h3>Location on map</h3>
+    <iframe
+      [src]="mapUrl"
+      width="100%"
+      height="350"
+      style="border: 0; border-radius: 12px;"
+      allowfullscreen
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      title="Property location map"
+    ></iframe>
+  </div>
+
+  <ng-template #noMap>
+    <div class="map-section map-empty">
+      <h3>Location on map</h3>
+      <p>Map is not available for this property because the coordinates are missing.</p>
+    </div>
+  </ng-template>
+</div>
+
+<ng-template #loading>
+  <p class="loading">Loading property details...</p>
+</ng-template>

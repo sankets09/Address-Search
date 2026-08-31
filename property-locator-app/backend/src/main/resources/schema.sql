@@ -1,0 +1,54 @@
+CREATE TABLE IF NOT EXISTS users (
+    user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS cities (
+    city_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    city_name VARCHAR(100) NOT NULL,
+    state_name VARCHAR(100) NULL,
+    country_name VARCHAR(100) NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_city_name (city_name)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS streets (
+    street_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    city_id BIGINT NOT NULL,
+    street_name VARCHAR(150) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_streets_city FOREIGN KEY (city_id) REFERENCES cities(city_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    INDEX idx_street_name (street_name)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS properties (
+    property_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    owner_id BIGINT NOT NULL,
+    street_id BIGINT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NULL,
+    property_type ENUM('APARTMENT', 'HOUSE', 'VILLA', 'CONDO', 'COMMERCIAL', 'PLOT') NOT NULL,
+    listing_status ENUM('FOR_SALE', 'FOR_RENT', 'SOLD', 'RENTED', 'PENDING') NOT NULL,
+    price DECIMAL(12,2) NOT NULL,
+    house_number VARCHAR(50) NOT NULL,
+    unit_number VARCHAR(50) NULL,
+    bedrooms INT NOT NULL DEFAULT 0,
+    bathrooms INT NOT NULL DEFAULT 0,
+    square_feet INT NULL,
+    year_built YEAR NULL,
+    latitude DECIMAL(10,8) NULL,
+    longitude DECIMAL(11,8) NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_properties_owner FOREIGN KEY (owner_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_properties_street FOREIGN KEY (street_id) REFERENCES streets(street_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    INDEX idx_property_price (price),
+    INDEX idx_property_type (property_type),
+    INDEX idx_property_house_number (house_number)
+) ENGINE=InnoDB;
