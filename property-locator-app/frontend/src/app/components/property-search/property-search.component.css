@@ -5,6 +5,76 @@
 }
 
 .topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 20px 24px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #0f172a, #1d4ed8);
+  color: #fff;
+  box-shadow: 0 18px 28px rgba(29, 78, 216, 0.2);
+}
+
+.eyebrow {
+  margin: 0 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  opacity: 0.8;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: clamp(1.7rem, 2vw, 2.3rem);
+}
+
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-pill {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  font-weight: 700;
+}
+
+.logout-btn,
+.search-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.logout-btn {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.search-btn {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #fff;
+}
+
+.logout-btn:hover,
+.search-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 18px rgba(37, 99, 235, 0.25);
+}
+
+.filters-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 18px;
+  padding: 16px;
   margin-bottom: 24px;
 }
 
@@ -12,24 +82,87 @@
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
-  margin-bottom: 24px;
 }
 
 .filters input,
-.filters select,
-.filters button {
+.filters select {
+  flex: 1 1 180px;
+  min-width: 160px;
   padding: 12px 14px;
-  border-radius: 8px;
-  border: 1px solid #d9dfe8;
+  border-radius: 12px;
+  border: 1px solid #d2dbe7;
+  background: #fff;
   font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.filters button {
-  background: #2f6fed;
-  color: #fff;
+.filters input:focus,
+.filters select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+.search-btn,
+.clear-btn {
+  padding: 12px 18px;
   border: none;
-  cursor: pointer;
+  border-radius: 12px;
   font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.search-btn {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #fff;
+}
+
+.clear-btn {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.search-btn:hover:not(:disabled),
+.clear-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 18px rgba(37, 99, 235, 0.15);
+}
+
+.search-btn:disabled,
+.clear-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.spinner-small {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error-message {
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  font-weight: 500;
 }
 
 .results {
@@ -39,24 +172,75 @@
 }
 
 .card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  padding: 18px;
+  background: #fff;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 18px;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+  padding: 20px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.status-badge.available {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-badge.sold {
+  background: #fee2e2;
+  color: #991b1b;
 }
 
 .card h3 {
-  margin-top: 0;
+  margin: 0 0 10px;
+  font-size: 1.25rem;
+}
+
+.address {
+  color: #475569;
+  min-height: 48px;
 }
 
 .card a {
-  text-decoration: none;
-  color: #2f6fed;
+  display: inline-block;
+  margin-top: 10px;
+  color: #2563eb;
   font-weight: 700;
+  text-decoration: none;
+}
+
+.card a:hover {
+  text-decoration: underline;
 }
 
 .empty {
   text-align: center;
-  padding: 40px 0;
-  color: #666;
+  padding: 50px 20px;
+  color: #475569;
+  font-size: 1.05rem;
+}
+
+@media (max-width: 640px) {
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .user-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
 }

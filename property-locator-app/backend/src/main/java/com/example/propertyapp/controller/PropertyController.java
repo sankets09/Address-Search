@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.propertyapp.dto.ErrorResponse;
 import com.example.propertyapp.model.Property;
 import com.example.propertyapp.repository.PropertyRepository;
 import com.example.propertyapp.specification.PropertySpecification;
@@ -31,28 +32,28 @@ public class PropertyController {
 
     @GetMapping("/search")
     public ResponseEntity<?> searchProperties(
-            @RequestParam(required = false) String cityName,
-            @RequestParam(required = false) String streetName,
+            @RequestParam(required = false) String buildingName,
             @RequestParam(required = false) String houseNumber,
-            @RequestParam(required = false) String propertyType,
-            @RequestParam(required = false) BigDecimal minPrice,
-            @RequestParam(required = false) BigDecimal maxPrice,
-            @RequestParam(required = false) Integer minBedrooms,
-            @RequestParam(required = false) String status,
-            @RequestParam(required = false) String searchText) {
+            @RequestParam(required = false) String street,
+            @RequestParam(required = false) String city) {
+
+        // Validate that at least one search parameter is provided
+        if ((buildingName == null || buildingName.trim().isEmpty()) &&
+            (houseNumber == null || houseNumber.trim().isEmpty()) &&
+            (street == null || street.trim().isEmpty()) &&
+            (city == null || city.trim().isEmpty())) {
+            return ResponseEntity.badRequest().body(
+                    new ErrorResponse("At least one search field must be provided")
+            );
+        }
 
         return ResponseEntity.ok(
                 propertyRepository.findAll(
                         PropertySpecification.filterProperties(
-                                cityName,
-                                streetName,
+                                buildingName,
                                 houseNumber,
-                                propertyType,
-                                minPrice,
-                                maxPrice,
-                                minBedrooms,
-                                status,
-                                searchText
+                                street,
+                                city
                         )
                 )
         );

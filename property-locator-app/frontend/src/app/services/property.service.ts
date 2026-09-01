@@ -17,15 +17,14 @@ export class PropertyService {
     return {
       id: backendProp.propertyId,
       title: backendProp.title,
-      price: backendProp.price,
       description: backendProp.description,
       bedroomCount: backendProp.bedrooms,
       bathroomCount: backendProp.bathrooms,
       areaSqft: backendProp.squareFeet,
-      status: backendProp.listingStatus === 'SOLD' ? 'Sold' : 'Available',
-      addressLine: `${backendProp.houseNumber || ''}${backendProp.unitNumber ? ', Unit ' + backendProp.unitNumber : ''}, ${backendProp.street?.streetName || ''}`,
-      cityName: backendProp.street?.city?.cityName || '',
+      houseNumber: backendProp.houseNumber,
       streetName: backendProp.street?.streetName || '',
+      cityName: backendProp.street?.city?.cityName || '',
+      postalCode: backendProp.postalCode,
       latitude: backendProp.latitude,
       longitude: backendProp.longitude,
     };

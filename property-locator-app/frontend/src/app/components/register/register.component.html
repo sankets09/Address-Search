@@ -1,52 +1,48 @@
 <div class="auth-page">
   <div class="auth-card">
-    <h2>Register</h2>
-    <form (ngSubmit)="onSubmit()">
+    <div class="brand-block">
+      <div class="brand-mark">P</div>
+      <div>
+        <p class="eyebrow">Create account</p>
+        <h2>Register</h2>
+      </div>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" novalidate>
       <label>
-        Username
-        <input type="text" [(ngModel)]="username" name="username" required autocomplete="username" />
+        <span>Username</span>
+        <input type="text" [(ngModel)]="username" name="username" required autocomplete="username" placeholder="Choose a username" />
       </label>
 
       <label>
-        Email
-        <input type="email" [(ngModel)]="email" name="email" required autocomplete="email" />
+        <span>Email</span>
+        <input type="email" [(ngModel)]="email" name="email" required autocomplete="email" placeholder="Enter your email" />
       </label>
 
       <label>
-        Password
-        <div class="password-field">
-          <input
-            [type]="showPassword ? 'text' : 'password'"
-            [(ngModel)]="password"
-            name="password"
-            required
-            autocomplete="new-password"
-          />
-          <button
-            type="button"
-            class="eye-btn"
-            (click)="showPassword = !showPassword"
-            [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
-          >
-            <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-              <circle cx="12" cy="12" r="3"></circle>
-            </svg>
-            <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.77 21.77 0 0 1 5.06-6.94"></path>
-              <path d="M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a21.83 21.83 0 0 1-2.16 3.19"></path>
-              <line x1="1" y1="1" x2="23" y2="23"></line>
-            </svg>
-          </button>
-        </div>
+        <span>Password</span>
+        <input
+          type="password"
+          [(ngModel)]="password"
+          name="password"
+          required
+          autocomplete="new-password"
+          placeholder="Create a password"
+        />
       </label>
 
-      <button type="submit">Register</button>
+      <button type="submit" class="submit-btn" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Register</span>
+        <span *ngIf="isLoading" class="spinner-inline">
+          <span class="spinner"></span>
+          Creating account...
+        </span>
+      </button>
     </form>
 
-    <p>
+    <p class="switch-copy">
       Already have an account?
-      <a routerLink="/login">Login</a>
+      <a routerLink="/login">Login here</a>
     </p>
   </div>
 </div>

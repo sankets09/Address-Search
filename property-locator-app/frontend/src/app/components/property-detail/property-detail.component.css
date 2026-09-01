@@ -1,26 +1,86 @@
 .detail-page {
-  max-width: 900px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 32px 20px 48px;
+  padding: 28px 20px 48px;
 }
 
-.detail-card {
-  background: white;
-  border-radius: 14px;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
-  padding: 28px;
+.detail-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  background: linear-gradient(135deg, #0f172a, #1d4ed8);
+  color: #fff;
+  border-radius: 18px;
+  padding: 18px 22px;
   margin-bottom: 24px;
+  box-shadow: 0 18px 28px rgba(29, 78, 216, 0.2);
 }
 
-.detail-card h2 {
-  margin-top: 0;
+.eyebrow {
+  margin: 0 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+  opacity: 0.8;
 }
 
+.detail-topbar h2 {
+  margin: 0;
+  font-size: clamp(1.5rem, 2vw, 2.1rem);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.user-pill {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  font-weight: 700;
+}
+
+.secondary-btn,
+.logout-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.secondary-btn {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+}
+
+.logout-btn {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.detail-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 24px;
+}
+
+.detail-card,
 .map-section {
-  background: white;
-  border-radius: 14px;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
-  padding: 20px;
+  background: #fff;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 18px;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+  padding: 24px;
+}
+
+.detail-card p {
+  margin: 0 0 12px;
+  line-height: 1.6;
 }
 
 .map-section h3 {
@@ -29,11 +89,22 @@
 }
 
 .map-empty {
-  color: #555;
+  color: #475569;
 }
 
 .loading {
   text-align: center;
   padding-top: 40px;
-  color: #555;
+  color: #475569;
+}
+
+@media (max-width: 768px) {
+  .detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

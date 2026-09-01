@@ -1,30 +1,47 @@
 <div class="search-page">
   <header class="topbar">
-    <h1>Property Search</h1>
+    <div>
+      <p class="eyebrow">Welcome back</p>
+      <h1>Address Search</h1>
+    </div>
+
+    <div class="user-actions">
+      <span class="user-pill">{{ currentUser }}</span>
+      <button class="logout-btn" type="button" (click)="logout()">Logout</button>
+    </div>
   </header>
 
-  <div class="filters">
-    <input type="text" [(ngModel)]="searchText" placeholder="Search by title or address" />
-    <input type="text" [(ngModel)]="city" placeholder="City" />
-    <select [(ngModel)]="status">
-      <option value="">All Status</option>
-      <option value="Available">Available</option>
-      <option value="Sold">Sold</option>
-    </select>
-    <button (click)="search()">Search</button>
+  <section class="filters-panel">
+    <div class="filters">
+      <input type="text" [(ngModel)]="buildingName" placeholder="Building Name" />
+      <input type="text" [(ngModel)]="houseNumber" placeholder="House Number" />
+      <input type="text" [(ngModel)]="street" placeholder="Street" />
+      <input type="text" [(ngModel)]="city" placeholder="City" />
+      <button class="search-btn" (click)="search()" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Search</span>
+        <span *ngIf="isLoading"><span class="spinner-small"></span> Searching...</span>
+      </button>
+      <button class="clear-btn" (click)="clear()" [disabled]="isLoading">Clear</button>
+    </div>
+  </section>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
   </div>
 
   <div class="results" *ngIf="results.length; else empty">
-    <div class="card" *ngFor="let property of results">
-      <h3>{{ property.title }}</h3>
-      <p>{{ property.addressLine }}</p>
+    <article class="card" *ngFor="let property of results">
+      <div class="card-header">
+        <h3>{{ property.title }}</h3>
+      </div>
+      <p class="address">{{ property.houseNumber }} {{ property.streetName }}</p>
       <p><strong>City:</strong> {{ property.cityName }}</p>
-      <p><strong>Price:</strong> ₹{{ property.price | number }}</p>
+      <p><strong>Postal Code:</strong> {{ property.postalCode || 'N/A' }}</p>
       <a [routerLink]="['/property', property.id]">View Details</a>
-    </div>
+    </article>
   </div>
 
   <ng-template #empty>
-    <p class="empty">No properties found.</p>
+    <p class="empty" *ngIf="hasSearched && !isLoading">No addresses found for your search.</p>
   </ng-template>
 </div>

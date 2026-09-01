@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.propertyapp.dto.AuthResponse;
+import com.example.propertyapp.dto.LoginRequest;
+import com.example.propertyapp.dto.RegisterRequest;
 import com.example.propertyapp.model.User;
 import com.example.propertyapp.repository.UserRepository;
+import com.example.propertyapp.security.JwtService;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -22,15 +26,17 @@ public class AuthController {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     @Autowired
-    public AuthController(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public AuthController(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, JwtService jwtService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User request) {
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         if (request.getUsername() == null || request.getUsername().trim().isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of("message", "Username is required"));
         }
@@ -39,48 +45,48 @@ public class AuthController {
             return ResponseEntity.badRequest().body(Map.of("message", "Email is required"));
         }
 
-        if (request.getPasswordHash() == null || request.getPasswordHash().trim().isEmpty()) {
+        if (request.getPassword() == null || request.getPassword().trim().isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of("message", "Password is required"));
         }
 
-        if (userRepository.existsByUsername(request.getUsername())) {
+        if (userRepository.existsByUsername(request.getUsername().trim())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("message", "Username already taken"));
         }
 
-        if (userRepository.existsByEmail(request.getEmail())) {
+        if (userRepository.existsByEmail(request.getEmail().trim())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("message", "Email already taken"));
         }
 
         User user = new User();
-        user.setUsername(request.getUsername());
-        user.setEmail(request.getEmail());
-        user.setPasswordHash(passwordEncoder.encode(request.getPasswordHash()));
+        user.setUsername(request.getUsername().trim());
+        user.setEmail(request.getEmail().trim());
+        user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
 
         User savedUser = userRepository.save(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(AuthResponse.success(null, savedUser));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User request) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         if (request.getUsername() == null || request.getUsername().trim().isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of("message", "Username is required"));
         }
 
-        if (request.getPasswordHash() == null || request.getPasswordHash().trim().isEmpty()) {
+        if (request.getPassword() == null || request.getPassword().trim().isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of("message", "Password is required"));
         }
 
-        User user = userRepository.findByUsername(request.getUsername());
+        User user = userRepository.findByUsername(request.getUsername().trim());
         if (user == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Invalid username or password"));
         }
 
-        boolean matches = passwordEncoder.matches(request.getPasswordHash(), user.getPasswordHash());
+        boolean matches = passwordEncoder.matches(request.getPassword(), user.getPasswordHash());
         if (!matches) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Invalid username or password"));
         }
 
-        String token = "dummy.jwt.token";
-        return ResponseEntity.ok(token);
+        String token = jwtService.generateToken(user);
+        return ResponseEntity.ok(AuthResponse.success(token, user));
     }
 }

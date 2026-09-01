@@ -1,15 +1,14 @@
 export interface Property {
   id?: number;
-  title: string;
-  price?: number;
+  title?: string;
   description?: string;
   bedroomCount?: number;
   bathroomCount?: number;
   areaSqft?: number;
-  status?: string;
-  addressLine?: string;
-  cityName?: string;
+  houseNumber?: string;
   streetName?: string;
+  cityName?: string;
+  postalCode?: string;
   latitude?: number;
   longitude?: number;
 }

@@ -1,5 +1,6 @@
 package com.example.propertyapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
@@ -62,6 +63,7 @@ public class User {
         this.email = email;
     }
 
+    @JsonIgnore
     public String getPasswordHash() {
         return passwordHash;
     }
