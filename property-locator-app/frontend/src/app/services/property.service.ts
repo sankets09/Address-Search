@@ -19,7 +19,6 @@ export class PropertyService {
       title: backendProp.title,
       description: backendProp.description,
       bedroomCount: backendProp.bedrooms,
-      bathroomCount: backendProp.bathrooms,
       areaSqft: backendProp.squareFeet,
       houseNumber: backendProp.houseNumber,
       streetName: backendProp.street?.streetName || '',

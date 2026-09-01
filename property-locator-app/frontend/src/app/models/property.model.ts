@@ -3,7 +3,6 @@ export interface Property {
   title?: string;
   description?: string;
   bedroomCount?: number;
-  bathroomCount?: number;
   areaSqft?: number;
   houseNumber?: string;
   streetName?: string;

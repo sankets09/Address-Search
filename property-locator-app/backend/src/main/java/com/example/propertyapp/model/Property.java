@@ -44,10 +44,6 @@ public class Property {
     @Column(name = "property_type", nullable = false)
     private PropertyType propertyType;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "listing_status", nullable = false)
-    private ListingStatus listingStatus;
-
     @Column(name = "price", nullable = false, precision = 12, scale = 2)
     private BigDecimal price;
 
@@ -59,9 +55,6 @@ public class Property {
 
     @Column(name = "bedrooms", nullable = false)
     private Integer bedrooms;
-
-    @Column(name = "bathrooms", nullable = false)
-    private Integer bathrooms;
 
     @Column(name = "square_feet")
     private Integer squareFeet;
@@ -79,8 +72,8 @@ public class Property {
     }
 
     public Property(Long propertyId, User owner, Street street, String title, String description,
-            PropertyType propertyType, ListingStatus listingStatus, BigDecimal price,
-            String houseNumber, String unitNumber, Integer bedrooms, Integer bathrooms,
+            PropertyType propertyType, BigDecimal price,
+            String houseNumber, String unitNumber, Integer bedrooms,
             Integer squareFeet, Integer yearBuilt, BigDecimal latitude, BigDecimal longitude) {
         this.propertyId = propertyId;
         this.owner = owner;
@@ -88,12 +81,10 @@ public class Property {
         this.title = title;
         this.description = description;
         this.propertyType = propertyType;
-        this.listingStatus = listingStatus;
         this.price = price;
         this.houseNumber = houseNumber;
         this.unitNumber = unitNumber;
         this.bedrooms = bedrooms;
-        this.bathrooms = bathrooms;
         this.squareFeet = squareFeet;
         this.yearBuilt = yearBuilt;
         this.latitude = latitude;
@@ -148,14 +139,6 @@ public class Property {
         this.propertyType = propertyType;
     }
 
-    public ListingStatus getListingStatus() {
-        return listingStatus;
-    }
-
-    public void setListingStatus(ListingStatus listingStatus) {
-        this.listingStatus = listingStatus;
-    }
-
     public BigDecimal getPrice() {
         return price;
     }
@@ -186,14 +169,6 @@ public class Property {
 
     public void setBedrooms(Integer bedrooms) {
         this.bedrooms = bedrooms;
-    }
-
-    public Integer getBathrooms() {
-        return bathrooms;
-    }
-
-    public void setBathrooms(Integer bathrooms) {
-        this.bathrooms = bathrooms;
     }
 
     public Integer getSquareFeet() {
@@ -237,11 +212,4 @@ public class Property {
         PLOT
     }
 
-    public enum ListingStatus {
-        FOR_SALE,
-        FOR_RENT,
-        SOLD,
-        RENTED,
-        PENDING
-    }
 }
